@@ -1,23 +1,41 @@
 import requests
 import json
+import logging
+from ..backofhouse.storeroom import settings
+from ..backofhouse.functions import setup_logging
 
+log = logging.getLogger(__name__)
 
 def load_check():
     try:
         with open('5e-database/5e-SRD-Monsters.json') as f:
             data = json.load(f)
-    
     except Exception:
-        #logging to come
+        log.error('LOAD-CHECK FAILED')
         raise e
-    
     return True
+
+
+def monster_appendix():
+    try:
+        with open('5e-database/5e-SRD-Monsters.json') as f:
+            data = json.load(f) 
+            print('-~-~-~-~-~-~-~-~-~')
+            for i in data:
+                monster = i['name'].lower()
+                print('monster found: [{}]'.format(monster))
+            print('-~-~-~-~-~-~-~-~-~')
+    
+    except Exception as e:
+        log.error(e)
+        raise e
+
 
 def monster_hunt(monster):
     if not monster: return
     # find monster in database
     try:
-        print('hunting {}s'.format(monster.lower()))
+        log.info('hunting {}s'.format(monster.lower()))
         with open('5e-database/5e-SRD-Monsters.json') as f:
             data = json.load(f)
 
@@ -25,6 +43,7 @@ def monster_hunt(monster):
                 monster = monster.lower()
                 mn_srch = i['name'].lower()
                 if monster == mn_srch:
+                    log.info('prey found: [{}]'.format(monster))
                     print('***********************')
                     print('found: [{}]'.format(mn_srch))
                     print('subtype: [{}], alignment: [{}] size:[{}]'.format(i['subtype'], i['alignment'], i['size']))
@@ -51,10 +70,10 @@ def monster_hunt(monster):
                         print('{}: {}'.format(spec['name'], spec['desc']))
                     print('***********************')
                         
-                    
+                    return monster
                 else:
-                    #print('skipping: [{}]'.format(mn_srch))
                     pass
 
     except Exception as e:
         raise e
+    
