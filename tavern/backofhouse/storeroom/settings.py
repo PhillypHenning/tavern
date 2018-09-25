@@ -16,7 +16,7 @@ fn = 'settings.yaml'
 ab_fn = os.path.abspath(os.path.join(PROJECT_CONF, fn))
 
 if not os.path.isfile(ab_fn):
-    with open(dn, 'w') as f: print('---\n...\n', file=f)
+    with open(dn, 'w') as f: f.write('---\n...\n')
 TVRN_SETTINGS = yaml.load(open(ab_fn, 'r'))
 
 LOG_LEVEL = TVRN_SETTINGS.get('log_level', 'info')
