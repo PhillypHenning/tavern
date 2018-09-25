@@ -76,4 +76,10 @@ def monster_hunt(monster):
 
     except Exception as e:
         raise e
-    
+
+def monster_find(by, value):
+    if by not in ['cr']: raise Exception('UNPERMITTED SEARCH BY METHOD BY:[{}]'.format(by))
+
+    if by == 'cr':
+        monster_find_by_cr()
+
