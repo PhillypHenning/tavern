@@ -85,5 +85,4 @@ def monster_find(by, value):
 
 def test_test():
     pass
-    pass
 
