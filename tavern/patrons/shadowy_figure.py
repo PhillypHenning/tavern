@@ -83,3 +83,6 @@ def monster_find(by, value):
     if by == 'cr':
         monster_find_by_cr()
 
+def test_test():
+    pass
+
