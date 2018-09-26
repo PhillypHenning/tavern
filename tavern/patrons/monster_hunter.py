@@ -131,6 +131,14 @@ def monster_hunt(monster):
 ##########
 def document_monster(monster):
     
+    print('Adding monster')
+    
+    with open('5e-database/5e-SRD-Monsters.json', 'r') as f: 
+        data = json.load(f)
+
+        
+
+
 
 ##########
 # DELETE #
