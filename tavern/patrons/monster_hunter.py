@@ -134,11 +134,16 @@ def monster_hunt(monster):
 def document_monster(monster):
     
     print('Adding monster')
-    
     with open('5e-json/5e-SRD-Monsters.json', 'r') as f: 
         data = json.load(f)
 
-        
+        log.info('ADDING MONSTER: [{}]'.format(monster))
+
+        print('type is: [{}]'.format(type(data)))
+        data.append(monster)
+    
+    with open('5e-json/5e-SRD-Monsters.json', 'w') as f: json.dump(data, f)
+
 
 
 

@@ -19,7 +19,7 @@ class TestMonsterHunter(unittest.TestCase):
         self.assertIsNone(monster)
 
     def test_monster_add(self):
-        test_monster = [{
+        test_monster = {
             'name' : 'test',
             'type' : 'humanoid',
             'subtype' : 'goblin',
@@ -33,7 +33,7 @@ class TestMonsterHunter(unittest.TestCase):
             'dexterity' : '12',
             'constitution' : '8',
             'intelligence' : '8',
-            'wisdom ' : '11',
+            'wisdom' : '11',
             'charisma' : '12',
             'damage_resistances' : [],
             'damage_immunities' : [],
@@ -42,11 +42,11 @@ class TestMonsterHunter(unittest.TestCase):
             'senses' : ['darkvision 60 ft'],
             'languages' : ['common', 'goblin'],
             'challenge_rating' : '1',
-            'actions' : ['*Slap*'],
-            'special_abilities' : [],
+            'actions' : [{'name': '*Slap*'},{'desc': '*whap*'}],
+            'special_abilities' : [{'name': ''}, { 'desc': ''}],
             'source' : 'CSTM_TEST',
             'url' : ''
-        }]
+        }
 
         document_monster(test_monster)
         self.assertIsNotNone(monster_hunt('test'))
