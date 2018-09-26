@@ -1,5 +1,6 @@
 import unittest
 from tavern.patrons.monster_hunter import monster_appendix
+
 class TestMonsterHunter(unittest.TestCase):
     
     def test_jenkins(self):
