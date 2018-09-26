@@ -43,6 +43,8 @@ def prepare_monster_appendix():
 
             for monster in data:
                 if not monster['source']: monster['source'] = 'PHB'
+                if monster['name'] == 'test':
+                    remove_monster(monster)
             
         with open('5e-json/5e-SRD-Monsters.json', 'w') as f: 
             f.write(json.dumps(data))
@@ -121,7 +123,7 @@ def monster_hunt(monster):
                     pass
 
             if mn_fnd: return mn_fnd
-            else: log.warning('UNABLE TO FIND MONSTER: [{}]'.format(mn_fnd))
+            else: log.warning('UNABLE TO FIND MONSTER: [{}]'.format(mn_srch))
 
     except ValueError as e:
         log.error(e)
@@ -131,27 +133,61 @@ def monster_hunt(monster):
 ##########
 # CREATE #
 ##########
-def document_monster(monster):
+def document_monster(monster=None):
+
+    if not monster: monster = {
+            'name' : 'test',
+            'type' : 'humanoid',
+            'subtype' : 'goblin',
+            'alignment' : 'neutral',
+            'size' : 'small',
+            'armor_class' : '11',
+            'hit_dice' : 'd8',
+            'hit_points': '19',
+            'speed' : '30 ft.',
+            'strength' : '12',
+            'dexterity' : '12',
+            'constitution' : '8',
+            'intelligence' : '8',
+            'wisdom' : '11',
+            'charisma' : '12',
+            'damage_resistances' : [],
+            'damage_immunities' : [],
+            'condition_immunities' : [],
+            'damage_vulnerabilities' : [],
+            'senses' : ['darkvision 60 ft.'],
+            'languages' : ['common', 'goblin'],
+            'challenge_rating' : '1',
+            'actions' : [{'name': '*Slap*', 'desc': '*whap*', 'attack_bonus': '+4', 'damage_dice': 'd6', 'damage_bonus': '+2', 'reach': '5ft.', 'hit': '1d6+2(6)'}],
+            'special_abilities' : [],
+            'source' : 'CSTM_TEST',
+            'url' : ''
+        }
     
-    print('Adding monster')
+    chng = False
     with open('5e-json/5e-SRD-Monsters.json', 'r') as f: 
         data = json.load(f)
 
-        log.info('ADDING MONSTER: [{}]'.format(monster))
+        log.info('TRY ADDING MONSTER: [{}]\n[{}]'.format(monster['name'], monster))
+        for mn_sr in data:
+            if monster['name'] == monster['name']:
+                log.warning('FAILED TO ADD [{}], CREATURE ALREADY EXISTS'.format(monster['name']))
+                break
+            
+            data.append(monster)
+            chng = True
 
-        print('type is: [{}]'.format(type(data)))
-        data.append(monster)
-    
-    with open('5e-json/5e-SRD-Monsters.json', 'w') as f: json.dump(data, f)
-
-
+    if chng: 
+        with open('5e-json/5e-SRD-Monsters.json', 'w') as f: json.dump(data, f)
+        return True
+    return False
 
 
 ##########
 # DELETE #
 ##########
-def remove_monster():
-    pass
+def remove_monster(monster):
+    print('called')
 
 
 ########

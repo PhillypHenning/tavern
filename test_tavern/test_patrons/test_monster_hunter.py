@@ -39,11 +39,11 @@ class TestMonsterHunter(unittest.TestCase):
             'damage_immunities' : [],
             'condition_immunities' : [],
             'damage_vulnerabilities' : [],
-            'senses' : ['darkvision 60 ft'],
+            'senses' : ['darkvision 60 ft.'],
             'languages' : ['common', 'goblin'],
             'challenge_rating' : '1',
-            'actions' : [{'name': '*Slap*'},{'desc': '*whap*'}],
-            'special_abilities' : [{'name': ''}, { 'desc': ''}],
+            'actions' : [{'name': '*Slap*', 'desc': '*whap*', 'attack_bonus': '+4', 'damage_dice': 'd6', 'damage_bonus': '+2', 'reach': '5ft.', 'hit': '1d6+2(6)'}],
+            'special_abilities' : [],
             'source' : 'CSTM_TEST',
             'url' : ''
         }
