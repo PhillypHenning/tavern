@@ -8,7 +8,7 @@ def create_database(database):
     # TODO
 
 def create_all_database():
-    dn = '5e-database/'
+    dn = '5e-json/'
     af = os.listdir(dn)
     print('checking folder: [{}], found: [{}]'.format(dn, af))
 

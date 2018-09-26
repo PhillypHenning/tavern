@@ -23,7 +23,7 @@ damage_immunities | subtype | hit_points
 ##########
 def load_check():
     try:
-        with open('5e-database/5e-SRD-Monsters.json') as f:
+        with open('5e-json/5e-SRD-Monsters.json') as f:
             data = json.load(f)
         return True
 
@@ -37,13 +37,13 @@ def load_check():
 ###########
 def prepare_monster_appendix():
     try:
-        with open('5e-database/5e-SRD-Monsters.json', 'r') as f:
+        with open('5e-json/5e-SRD-Monsters.json', 'r') as f:
             data = json.load(f)
 
             for monster in data:
                 monster['source'] = 'PHB'
             
-        with open('5e-database/5e-SRD-Monsters.json', 'w') as f: 
+        with open('5e-json/5e-SRD-Monsters.json', 'w') as f: 
             f.write(json.dumps(data))
 
     except ValueError as e:
@@ -56,7 +56,7 @@ def prepare_monster_appendix():
 ########
 def monster_appendix():
     try:
-        with open('5e-database/5e-SRD-Monsters.json') as f:
+        with open('5e-json/5e-SRD-Monsters.json') as f:
             data = json.load(f) 
             log.debug('-~-~-~-~-~-~-~-~-~')
             for i in data:
@@ -75,10 +75,10 @@ def monster_appendix():
 ########
 def monster_hunt(monster):
     if not monster: raise Exception('NO MONSTER SPECIFIED')
-    # find monster in database
+    # find monster in json
     try:
         log.info('hunting {}s'.format(monster.lower()))
-        with open('5e-database/5e-SRD-Monsters.json') as f:
+        with open('5e-json/5e-SRD-Monsters.json') as f:
             data = json.load(f)
             mn_fnd = None
 
@@ -133,7 +133,7 @@ def document_monster(monster):
     
     print('Adding monster')
     
-    with open('5e-database/5e-SRD-Monsters.json', 'r') as f: 
+    with open('5e-json/5e-SRD-Monsters.json', 'r') as f: 
         data = json.load(f)
 
         
