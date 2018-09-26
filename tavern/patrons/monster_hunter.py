@@ -37,11 +37,12 @@ def load_check():
 ###########
 def prepare_monster_appendix():
     try:
+        # HAS POTENTIAL TO OVERWRITE CUSTOM ENTRIES TODO
         with open('5e-json/5e-SRD-Monsters.json', 'r') as f:
             data = json.load(f)
 
             for monster in data:
-                monster['source'] = 'PHB'
+                if not monster['source']: monster['source'] = 'PHB'
             
         with open('5e-json/5e-SRD-Monsters.json', 'w') as f: 
             f.write(json.dumps(data))
@@ -89,7 +90,7 @@ def monster_hunt(monster):
                     log.info('prey found: [{}]'.format(monster))
                     log.debug('***********************')
                     log.debug('found: [{}]'.format(mn_srch))
-                    log.debug('subtype: [{}], alignment: [{}] size:[{}]'.format(i['subtype'], i['alignment'], i['size']))
+                    log.debug('type: [{}], subtype: [{}], alignment: [{}] size:[{}]'.format(i['type'], i['subtype'], i['alignment'], i['size']))
                     log.debug('armor class: [{}]'.format(i['armor_class']))
                     log.debug('hit points: [{}]'.format(i['hit_points']))
                     log.debug('speed: [{}]'.format(i['speed']))
@@ -101,7 +102,7 @@ def monster_hunt(monster):
                     log.debug('damage immunities: [{}]'.format(i['damage_immunities']))
                     log.debug('damage vulnerabilities: [{}]'.format(i['damage_vulnerabilities']))
                     log.debug('senses: [{}]'.format(i['senses']))
-                    log.debug('lamnguages: [{}]'.format(i['languages']))
+                    log.debug('languages: [{}]'.format(i['languages']))
                     log.debug('challenge rating: [{}]'.format(i['challenge_rating']))
                     log.debug('-------')
                     log.debug('Actions')
@@ -119,7 +120,8 @@ def monster_hunt(monster):
                 else:
                     pass
 
-            return mn_fnd
+            if mn_fnd: return mn_fnd
+            else: log.warning('UNABLE TO FIND MONSTER: [{}]'.format(mn_fnd))
 
     except ValueError as e:
         log.error(e)
