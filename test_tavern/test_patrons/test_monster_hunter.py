@@ -8,6 +8,12 @@ class TestMonsterHunter(unittest.TestCase):
         if monster_appendix(): ok = True
         self.assertTrue(ok)
 
-    def test_monster_hunt(self):
+    def test_monster_hunt_found(self):
         ok = False
-        monster = monster_hunt(name='zombie')
+        monster = monster_hunt(monster='zombie')
+        self.assertIsNotNone(monster)
+    
+    def test_monster_hunt_not_found(self):
+        ok = False
+        monster = monster_hunt(monster='zomie')
+        self.assertIsNone(monster)

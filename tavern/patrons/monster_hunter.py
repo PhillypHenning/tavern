@@ -47,7 +47,7 @@ def prepare_monster_appendix():
             f.write(json.dumps(data))
 
     except ValueError as e:
-        log.debug(e)
+        log.error(e)
         raise e
 
 
@@ -65,7 +65,7 @@ def monster_appendix():
             log.debug('-~-~-~-~-~-~-~-~-~')
             return data
     
-    except Exception as e:
+    except ValueError as e:
         log.error(e)
         raise e
 
@@ -75,12 +75,12 @@ def monster_appendix():
 ########
 def monster_hunt(monster):
     if not monster: raise Exception('NO MONSTER SPECIFIED')
-    calc_mod(5)
     # find monster in database
     try:
         log.info('hunting {}s'.format(monster.lower()))
         with open('5e-database/5e-SRD-Monsters.json') as f:
             data = json.load(f)
+            mn_fnd = None
 
             for i in data:
                 monster = monster.lower()
@@ -113,23 +113,24 @@ def monster_hunt(monster):
                     log.debug('source: [{}]'.format(i['source']))
                     log.debug('***********************')
 
-                    monster = mn_srch
+                    mn_fnd = mn_srch
                     continue
                         
                 else:
                     pass
 
-            return monster
+            return mn_fnd
 
-    except Exception as e:
+    except ValueError as e:
+        log.error(e)
         raise e
 
 
 ##########
 # CREATE #
 ##########
-def doc_monster():
-    pass
+def document_monster(monster):
+    
 
 ##########
 # DELETE #
