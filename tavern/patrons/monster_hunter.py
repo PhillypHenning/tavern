@@ -2,9 +2,20 @@ import requests
 import json
 import logging
 from ..backofhouse.storeroom import settings
-from ..backofhouse.functions import setup_logging
+from ..backofhouse.functions import setup_logging, calc_mod
 
 log = logging.getLogger(__name__)
+
+
+"""
+MONSTER FIELDS
+dexterity | wisdom_save | intelligence | actions | hit_dice
+damage_resistances | speed | alignment | size | index | strength
+constitution | languages | source | charisma | armor_class
+condition_immunities | damage_vulnerabilities | senses | wisdom 
+challenge_rating | special_abilities | name | url | type
+damage_immunities | subtype | hit_points
+"""
 
 
 ##########
@@ -14,10 +25,30 @@ def load_check():
     try:
         with open('5e-database/5e-SRD-Monsters.json') as f:
             data = json.load(f)
-    except Exception:
+        return True
+
+    except ValueError as e:
         log.error('LOAD-CHECK FAILED')
         raise e
-    return True
+
+
+###########
+# PREPARE #
+###########
+def prepare_monster_appendix():
+    try:
+        with open('5e-database/5e-SRD-Monsters.json', 'r') as f:
+            data = json.load(f)
+
+            for monster in data:
+                monster['source'] = 'PHB'
+            
+        with open('5e-database/5e-SRD-Monsters.json', 'w') as f: 
+            f.write(json.dumps(data))
+
+    except ValueError as e:
+        log.debug(e)
+        raise e
 
 
 ########
@@ -32,7 +63,7 @@ def monster_appendix():
                 monster = i['name'].lower()
                 log.debug('monster found: [{}]'.format(monster))
             log.debug('-~-~-~-~-~-~-~-~-~')
-        return True
+            return data
     
     except Exception as e:
         log.error(e)
@@ -43,7 +74,8 @@ def monster_appendix():
 # FIND #
 ########
 def monster_hunt(monster):
-    if not monster: return
+    if not monster: raise Exception('NO MONSTER SPECIFIED')
+    calc_mod(5)
     # find monster in database
     try:
         log.info('hunting {}s'.format(monster.lower()))
@@ -63,7 +95,7 @@ def monster_hunt(monster):
                     log.debug('speed: [{}]'.format(i['speed']))
                     log.debug('-------')
                     # TODO MODIFIERS
-                    log.debug('str: [{}](), dex: [{}](), con: [{}](), int:[{}](), wis:[{}](), cha:[{}]()'.format(i['strength'], i['dexterity'], i['constitution'], i['intelligence'], i['wisdom'], i['charisma'],))
+                    log.debug('str: [{}]({}), dex: [{}]({}), con: [{}]({}), int:[{}]({}), wis:[{}]({}), cha:[{}]({})'.format(i['strength'], calc_mod(i['strength']), i['dexterity'], calc_mod(i['dexterity']), i['constitution'], calc_mod(i['constitution']), i['intelligence'], calc_mod(i['intelligence']), i['wisdom'], calc_mod(i['wisdom']), i['charisma'], calc_mod(i['charisma'])))
                     log.debug('-------')
                     log.debug('damage resistances: [{}]'.format(i['damage_resistances']))
                     log.debug('damage immunities: [{}]'.format(i['damage_immunities']))
@@ -78,18 +110,37 @@ def monster_hunt(monster):
                         log.debug('{}: {}'.format(action['name'], action['desc']))
                     for spec in i['special_abilities']:
                         log.debug('{}: {}'.format(spec['name'], spec['desc']))
+                    log.debug('source: [{}]'.format(i['source']))
                     log.debug('***********************')
 
-                    monster = mn_srch[i]
+                    monster = mn_srch
                     continue
                         
                 else:
                     pass
 
-            print(type(monster))
+            return monster
 
     except Exception as e:
         raise e
 
 
+##########
+# CREATE #
+##########
+def doc_monster():
+    pass
+
+##########
+# DELETE #
+##########
+def remove_monster():
+    pass
+
+
+########
+# EDIT #
+########
+def rewrite_monster():
+    pass
 

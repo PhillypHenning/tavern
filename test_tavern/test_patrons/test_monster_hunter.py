@@ -1,10 +1,13 @@
 import unittest
-from tavern.patrons.monster_hunter import monster_appendix
+from tavern.patrons.monster_hunter import monster_appendix, monster_hunt
 
 class TestMonsterHunter(unittest.TestCase):
-    
-    def test_jenkins(self):
-        self.assertTrue(True)
 
     def test_monster_appendix(self):
-        self.assertTrue(monster_appendix())
+        ok = False
+        if monster_appendix(): ok = True
+        self.assertTrue(ok)
+
+    def test_monster_hunt(self):
+        ok = False
+        monster = monster_hunt(name='zombie')
