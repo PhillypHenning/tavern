@@ -3,8 +3,9 @@ import os
 import logging
 
 from tavern.patrons.monster_hunter import load_check, monster_hunt, monster_appendix, prepare_monster_appendix, document_monster
-from tavern.backofhouse.database import create_all_database
+from tavern.backofhouse.database import prepare_databases, clean_databases
 from tavern.backofhouse.functions import setup_logging
+import tavern.backofhouse.storeroom.settings as settings
 
 setup_logging()
 log = logging.getLogger(__name__)
@@ -22,8 +23,6 @@ def main(argv):
     tavern.py monster doc - add monster to data
     """
     try:
-        load_check()
-        prepare_monster_appendix()
         if argv[1] == 'monster': 
             if argv[2] == 'list': 
                 monster_appendix()
@@ -36,8 +35,13 @@ def main(argv):
                 print(usage)
 
         elif argv[1] == 'setup': 
-            # prepare_all
-            create_all_database()
+            if settings.FULL_CLEAN: clean_databases()
+            else: print('skipping')
+            prepare_databases()
+
+
+        else:
+            print(usage)
 
     except ValueError as e:
         print(usage)

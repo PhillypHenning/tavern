@@ -18,45 +18,7 @@ damage_immunities | subtype | hit_points
 """
 
 
-##########
-# VERIFY #
-##########
-def load_check():
-    try:
-        with open('5e-json/5e-SRD-Monsters.json') as f:
-            data = json.load(f)
-        return True
 
-    except ValueError as e:
-        log.error('LOAD-CHECK FAILED')
-        raise e
-
-
-###########
-# PREPARE #
-###########
-def prepare_monster_appendix():
-    try:
-        # HAS POTENTIAL TO OVERWRITE CUSTOM ENTRIES TODO
-        with open('5e-json/5e-SRD-Monsters.json', 'r') as f:
-            data = json.load(f)
-
-            for monster in data:
-                if not monster['source']: monster['source'] = 'PHB'
-                if monster['name'] == 'test':
-                    remove_monster(monster)
-            
-        with open('5e-json/5e-SRD-Monsters.json', 'w') as f: 
-            f.write(json.dumps(data))
-
-    except ValueError as e:
-        log.error(e)
-        raise e
-
-
-########
-# LIST #
-########
 def monster_appendix():
     try:
         with open('5e-json/5e-SRD-Monsters.json') as f:
@@ -73,9 +35,6 @@ def monster_appendix():
         raise e
 
 
-########
-# FIND #
-########
 def monster_hunt(monster):
     if not monster: raise Exception('NO MONSTER SPECIFIED')
     # find monster in json
@@ -130,9 +89,6 @@ def monster_hunt(monster):
         raise e
 
 
-##########
-# CREATE #
-##########
 def document_monster(monster=None):
 
     if not monster: monster = {
@@ -183,16 +139,27 @@ def document_monster(monster=None):
     return False
 
 
-##########
-# DELETE #
-##########
 def remove_monster(monster):
-    print('called')
+    with open('5e-json/5e-SRD-Monsters.json', 'r') as f: 
+        data = json.load(f)
+
+        chk=0
+        print(len(data))
+        print(data[0])
+        exit(2)
+        for mn_sr in data:
+            print(chk)
+            if monster['name'] == mn_sr['name']:
+                log.info('FOUND: [{}], INDEX: [{}]'.format(monster['name'], chk))
+                data.pop(chk)
+
+            chk+=1
+
+    with open('5e-json/5e-SRD-Monsters.json', 'w') as f: 
+        json.dump(data, f)
 
 
-########
-# EDIT #
-########
+
 def rewrite_monster():
     pass
 
